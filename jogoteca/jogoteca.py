@@ -22,6 +22,33 @@ class Game:
     def console(self):
         return self.__console
 
+
+class User:
+    def __init__(self, id, username, password):
+        self.__id = id
+        self.__username = username
+        self.__password = password
+
+    @property
+    def id(self):
+        return self.__id
+
+    @property
+    def username(self):
+        return self.__username
+
+    @property
+    def password(self):
+        return self.__password
+
+
+user1 = User('beni', 'Benicio Daniel', '1234')
+user2 = User('doe', 'John Doe', '4321')
+user3 = User('jw', 'Jose', 'ericclapton')
+users = {user1.id: user1,
+         user2.id: user2,
+         user3.id: user3}
+
 game1 = Game('Final Fantasy VII', 'RPG', 'PS1')
 game2 = Game('Final Fantasy VI', 'RPG', 'SNES')
 game3 = Game('Donkey Kong 2', 'Action', 'SNES')
@@ -60,11 +87,15 @@ def login():
 
 @app.route("/authenticate", methods=["POST",])
 def authenticate():
-    if 'masterkey' == request.form['password']:
-        session['logged_user'] = request.form['username']
-        flash(request.form['username'] + ' successfully logged in!')
-        next_page = request.form['next']
-        return redirect(next_page)
+
+    if request.form['username'] in users:
+        user = users[request.form['username']]
+        if user.password == request.form['password']:
+            session['logged_user'] = user.id
+            flash(user.username + ' successfully logged in!')
+            next_page = request.form['next']
+            return redirect(next_page)
+
     else:
         flash('Username or Password invalid. Please, try again.')
         return redirect(url_for('login'))
