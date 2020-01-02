@@ -44,4 +44,16 @@ def store():
 
     return redirect('/')
 
+
+@app.route("/login")
+def login():
+    return render_template("login.html", title="Login")
+
+@app.route("/authenticate", methods=["POST",])
+def authenticate():
+    if 'masterkey' == request.form['password']:
+        return redirect('/')
+    else:
+        return redirect('/login')
+
 app.run(debug=True)
