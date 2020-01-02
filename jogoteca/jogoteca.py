@@ -30,5 +30,8 @@ def index():
     list = [game1, game2, game3]
     return render_template('list.html', title="Games", games=list)
 
+@app.route("/new")
+def create():
+    return render_template('new.html', title="New Game")
 
 app.run()
