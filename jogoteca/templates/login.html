@@ -1,6 +1,7 @@
 {% extends "template.html" %}
 {% block content %}
-        <form method="POST" action="/authenticate">
+        <form method="POST" action="{{ url_for('authenticate') }}">
+            <input type="hidden" name="next" value="{{ next or url_for('index') }}">
             <p>
                 <label>Username:</label>
                 <input class="form-control" type="text" name="username" required>

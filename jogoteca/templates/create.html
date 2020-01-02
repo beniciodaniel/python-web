@@ -1,6 +1,6 @@
 {% extends "template.html" %}
 {% block content %}
-      <form action="/store" method="post">
+      <form action="{{ url_for('store') }}" method="post">
         <fieldset>
           <div class="form-group">
             <label for="name">Name</label>
