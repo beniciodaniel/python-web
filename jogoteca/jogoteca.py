@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 
 app = Flask(__name__)
 
@@ -27,11 +27,11 @@ list = [game1, game2, game3]
 
 @app.route("/")
 def index():
-    return render_template('list.html', title="Games", games=list)
+    return render_template('index.html', title="Games", games=list)
 
 @app.route("/create")
 def create():
-    return render_template('new.html', title="New Game")
+    return render_template('create.html', title="New Game")
 
 @app.route("/store", methods=['POST',])
 def store():
@@ -42,6 +42,6 @@ def store():
     game = Game(name, category, console)
     list.append(game)
 
-    return render_template('list.html', title="Games", games=list)
+    return redirect('/')
 
 app.run(debug=True)
