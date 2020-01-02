@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
@@ -20,18 +20,28 @@ class Game:
     def console(self):
         return self.__console
 
-@app.route("/index")
+game1 = Game('Final Fantasy VII', 'RPG', 'PS1')
+game2 = Game('Final Fantasy VI', 'RPG', 'SNES')
+game3 = Game('Donkey Kong 2', 'Action', 'SNES')
+list = [game1, game2, game3]
+
+@app.route("/")
 def index():
-
-    game1 = Game('Final Fantasy VII', 'RPG', 'PS1')
-    game2 = Game('Final Fantasy VI', 'RPG', 'SNES')
-    game3 = Game('Donkey Kong 2', 'Action', 'SNES')
-
-    list = [game1, game2, game3]
     return render_template('list.html', title="Games", games=list)
 
-@app.route("/new")
+@app.route("/create")
 def create():
     return render_template('new.html', title="New Game")
 
-app.run()
+@app.route("/store", methods=['POST',])
+def store():
+    name = request.form['name']
+    category = request.form['category']
+    console = request.form['console']
+
+    game = Game(name, category, console)
+    list.append(game)
+
+    return render_template('list.html', title="Games", games=list)
+
+app.run(debug=True)
